@@ -8,30 +8,77 @@ import java.awt.*;
  */
 public class GameOfLife {
 
-    public final JButton[][] cells = new CeJButtonll[8][8];
+    public final Cell[][] cells = new Cell[10][10];
     public final JFrame frame = new JFrame();
+    public int[][] range = new int[][] {{-1, 1}, {0, 1},{1, 1},{-1, 0},{1, -1},{-1, -1},{0, -1},{1, 0}};
 
     public GameOfLife() {
-        frame.setSize(500,500);
-        frame.setLayout(new GridLayout(8,8));;
+        frame.setSize(500, 500);
+        frame.setLayout(new GridLayout(10, 10));
+
         generateCells(this.cells, frame);
 
         frame.setResizable(false);
         frame.setVisible(true);
     }
 
-    private void generateCells(JButton[][] cells, JFrame frame){
-        int cellID = 1;
-        boolean isBomb;
-        for (int x = 0; x < cells.length; x++) {
-            for (int y = 0; y < cells.length; y++) {
-                isBomb = checkCell(cellID);
-                if (isBomb) {
-                    cells[x][y] = new Cell(cellID, true, frame);
-                } else {
-                    cells[x][y] = new Cell(cellID, false, frame);
+    static public void main(String[] args) {
+        GameOfLife gameoflife = new GameOfLife();
+        while(true){
+            gameoflife.countAlive();
+            gameoflife.checkCells();
+            try {Thread.sleep(1000);}catch (Exception e){}
+        }
+    }
+
+    private void generateCells(Cell[][] cells, JFrame frame) {
+        for (int i = 0; i<cells.length;i++) {
+            for (int j = 0; j<cells[i].length;j++) {
+                cells[i][j] = new Cell();
+                if (getRandomBoolean()){
+                    cells[i][j].alive = true;
+                    cells[i][j].setBackground(Color.YELLOW);
+                }else {
+                    cells[i][j].alive = false;
+                    cells[i][j].setBackground(Color.BLACK);
                 }
-                cellID += 1;
+                frame.add(cells[i][j]);
             }
         }
+    }
+
+    private void checkCells(){
+        for (int i = 0; i<cells.length;i++) {
+            for (int j = 0; j<cells[i].length;j++) {
+                if(cells[i][j].alive == true) {
+                    if (cells[i][j].aliveInRange < 2 || cells[i][j].aliveInRange > 3) {
+                        cells[i][j].alive = false;
+                        cells[i][j].setBackground(Color.BLACK);
+                    }
+                } else {
+                    if (cells[i][j].aliveInRange == 3){
+                        cells[i][j].alive = true;
+                        cells[i][j].setBackground(Color.YELLOW);
+                    }
+                }
+            }
+        }
+    }
+
+    private void countAlive(){
+        for (int i = 0; i<cells.length;i++) {
+            for (int j = 0; j < cells[i].length; j++) {
+                for (int[] point : range) {
+                    try {if (cells[i + point[0]][j + point[1]].alive == true) {
+                            cells[i][j].aliveInRange+=1;
+                        }} catch (Exception e) {}
+                }
+            }
+        }
+    }
+
+    private boolean getRandomBoolean() {
+        return Math.random() < 0.5;
+        //I tried another approaches here, still the same result
+    }
 }

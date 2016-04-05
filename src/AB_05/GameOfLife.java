@@ -8,17 +8,17 @@ import java.awt.*;
  */
 public class GameOfLife {
 
-    public final Cell[][] cells = new Cell[10][10];
+    public final Cell[][] cells = new Cell[50][50];
     public final JFrame frame = new JFrame();
     public int[][] range = new int[][] {{-1, 1}, {0, 1},{1, 1},{-1, 0},{1, -1},{-1, -1},{0, -1},{1, 0}};
 
     public GameOfLife() {
-        frame.setSize(500, 500);
-        frame.setLayout(new GridLayout(10, 10));
+        frame.setSize(1000, 1000);
+        frame.setLayout(new GridLayout(cells.length, cells.length));
 
         generateCells(this.cells, frame);
 
-        frame.setResizable(false);
+//        frame.setResizable(false);
         frame.setVisible(true);
     }
 
@@ -27,7 +27,7 @@ public class GameOfLife {
         while(true){
             gameoflife.countAlive();
             gameoflife.checkCells();
-            try {Thread.sleep(1000);}catch (Exception e){}
+            try {Thread.sleep(500);}catch (Exception e){}
         }
     }
 
@@ -50,7 +50,7 @@ public class GameOfLife {
     private void checkCells(){
         for (int i = 0; i<cells.length;i++) {
             for (int j = 0; j<cells[i].length;j++) {
-                if(cells[i][j].alive == true) {
+                if(cells[i][j].alive) {
                     if (cells[i][j].aliveInRange < 2 || cells[i][j].aliveInRange > 3) {
                         cells[i][j].alive = false;
                         cells[i][j].setBackground(Color.BLACK);
@@ -68,10 +68,12 @@ public class GameOfLife {
     private void countAlive(){
         for (int i = 0; i<cells.length;i++) {
             for (int j = 0; j < cells[i].length; j++) {
+                cells[i][j].aliveInRange = 0;
                 for (int[] point : range) {
-                    try {if (cells[i + point[0]][j + point[1]].alive == true) {
+                    try {if (cells[i + point[0]][j + point[1]].alive) {
                             cells[i][j].aliveInRange+=1;
-                        }} catch (Exception e) {}
+                        }
+                    } catch (Exception e) {}
                 }
             }
         }

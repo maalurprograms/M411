@@ -1,8 +1,5 @@
 package AB_05;
 
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;

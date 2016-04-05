@@ -15,10 +15,7 @@ public class GameOfLife {
     public GameOfLife() {
         frame.setSize(1000, 1000);
         frame.setLayout(new GridLayout(cells.length, cells.length));
-
         generateCells(this.cells, frame);
-
-//        frame.setResizable(false);
         frame.setVisible(true);
     }
 
@@ -81,6 +78,5 @@ public class GameOfLife {
 
     private boolean getRandomBoolean() {
         return Math.random() < 0.5;
-        //I tried another approaches here, still the same result
     }
 }

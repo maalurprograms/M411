@@ -1,30 +1,48 @@
 package AB_05;
 
+import jdk.nashorn.internal.scripts.JO;
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 /**
  * Created by jonas on 31.03.16.
  */
 public class GameOfLife {
 
-    public final Cell[][] cells = new Cell[50][50];
-    public final JFrame frame = new JFrame();
-    public int[][] range = new int[][] {{-1, 1}, {0, 1},{1, 1},{-1, 0},{1, -1},{-1, -1},{0, -1},{1, 0}};
+    private Cell[][] cells;
+    public int updateTime;
 
-    public GameOfLife() {
+    private JFrame frame = new JFrame();
+    private int[][] range = new int[][] {{-1, 1}, {0, 1},{1, 1},{-1, 0},{1, -1},{-1, -1},{0, -1},{1, 0}};
+
+    public GameOfLife(int updateTime, int fieldSize) {
+        this.updateTime = updateTime;
+        cells = new Cell[fieldSize][fieldSize];
+
         frame.setSize(1000, 1000);
+        frame.setLocation(java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().width/2,java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().height/2);
         frame.setLayout(new GridLayout(cells.length, cells.length));
+        frame.addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent windowEvent){
+                System.exit(0);
+            }
+        });
         generateCells(this.cells, frame);
         frame.setVisible(true);
+
+        mainLoop();
     }
 
-    static public void main(String[] args) {
-        GameOfLife gameoflife = new GameOfLife();
+    public void mainLoop(){
         while(true){
-            gameoflife.countAlive();
-            gameoflife.checkCells();
-            try {Thread.sleep(500);}catch (Exception e){}
+            countAlive();
+            checkCells();
+            try {Thread.sleep(updateTime);}catch (Exception e){}
         }
     }
 

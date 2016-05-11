@@ -6,23 +6,27 @@ package AB_04;
 public class CloneExperiment {
     public static void main(String[] args){
 
-        int[] liste = new int[1000000];
+        int[] liste = new int[100];
         for (int i=0; i<liste.length;i++){
             liste[i] = (int)(100*Math.random());
         }
+        System.out.println("Listen Länge: "+liste.length);
 
         //-----------------------------------------------
 
-        long startZeit = System.currentTimeMillis();
+        long startZeit = System.nanoTime();
 
-//        int[] liste2 = liste.clone();
+        int[] listeClone = liste.clone();
+        long endZeit = System.nanoTime();
+        System.out.println("Clone: "+(endZeit-startZeit));
 
-        int[] liste2 = new int[1000000];
+        startZeit = System.nanoTime();
+        int[] listeCopy = new int[liste.length];
         for (int i=0; i<liste.length;i++){
-            liste2[i] = liste[i];
+            listeCopy[i] = liste[i];
         }
+        endZeit = System.nanoTime();
+        System.out.println("Copy: "+(endZeit-startZeit));
 
-        long endZeit = System.currentTimeMillis();
-        System.out.println(endZeit-startZeit);
     }
 }

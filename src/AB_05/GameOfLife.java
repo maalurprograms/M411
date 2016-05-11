@@ -18,7 +18,8 @@ class GameOfLife {
 
         JFrame frame = new JFrame();
         frame.setSize(1000, 1000);
-        frame.setLocation(java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().width/2,java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().height/2);
+        frame.setLocation(java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().width/2,
+                java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().height/2);
         frame.setLayout(new GridLayout(cells.length, cells.length));
         frame.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent windowEvent){
